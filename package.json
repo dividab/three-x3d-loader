@@ -1,0 +1,23 @@
+{
+  "name": "three-x3d-loader",
+  "version": "0.1.0",
+  "description": "Three loader for the X3D format.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonaskello/three-x3d-loader.git"
+  },
+  "keywords": [
+    "three",
+    "x3d"
+  ],
+  "author": "Jonas Kello",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonaskello/three-x3d-loader/issues"
+  },
+  "homepage": "https://github.com/jonaskello/three-x3d-loader#readme"
+}
