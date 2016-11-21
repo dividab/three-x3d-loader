@@ -1,6 +1,6 @@
 module.exports = {
     devtool: 'sourcemap',
-    context: __dirname + "/example/",
+    context: __dirname + "/",
     entry: "./example.js",
     output: {
         path: __dirname + "/",

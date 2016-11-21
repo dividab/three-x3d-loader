@@ -22,7 +22,6 @@ module.exports = function (THREE) {
 		isRecordingAngles: false,
 		isRecordingColors: false,
 		angles: [],
-		colors: [],
 
 		recordingFieldname: null,
 
@@ -65,7 +64,7 @@ module.exports = function (THREE) {
 
 			var scene = new THREE.Scene();
 			var x3dXml = parseXml(data);
-			renderX3D(x3dXml, scene, THREE);
+			renderX3D(THREE, x3dXml, scene);
 
 			return scene;
 		}

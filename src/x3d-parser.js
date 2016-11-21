@@ -1,5 +1,5 @@
-function renderX3D(x3dXml, scene, THREE) {
-
+function renderX3D(THREE, x3dXml, scene) {
+    scene = scene || new THREE.Scene();
     var defines = {};
     var float_pattern = /(\b|\-|\+)([\d\.e]+)/;
     var float2_pattern = /([\d\.\+\-e]+)\s+([\d\.\+\-e]+)/g;
