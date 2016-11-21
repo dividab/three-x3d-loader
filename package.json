@@ -1,6 +1,6 @@
 {
   "name": "three-x3d-loader",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Three loader for the X3D format.",
   "main": "index.js",
   "scripts": {
