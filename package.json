@@ -4,6 +4,7 @@
   "description": "Three loader for the X3D format.",
   "main": "index.js",
   "scripts": {
+    "example": "webpack-dev-server --config example/webpack.example.config.js --content-base=example/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/jonaskello/three-x3d-loader/issues"
   },
-  "homepage": "https://github.com/jonaskello/three-x3d-loader#readme"
+  "homepage": "https://github.com/jonaskello/three-x3d-loader#readme",
+  "devDependencies": {
+    "three": "^0.82.1",
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
+  }
 }

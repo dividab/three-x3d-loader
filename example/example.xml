@@ -1,0 +1,14 @@
+<X3D width="400px" height="400px">
+    <Scene>
+        <Shape>
+            <Appearance>
+                <Material ambientIntensity="1.000000" diffuseColor="0.59 0.59 0.59" specularColor="1.00 1.00 1.00" shininess="1.00" transparency="0.00"></Material>
+            </Appearance>
+            <IndexedFaceSet solid="false" creaseAngle="1.5"
+                            coordIndex="0 2 3 1 -1 ">
+                <Coordinate point="187.750000 144.000000 162.298861 187.750000 -144.000000 162.298861 -216.250000 144.000000 162.298861 -216.250000 -144.000000 162.298861 ">
+                </Coordinate>
+            </IndexedFaceSet>
+        </Shape>
+    </Scene>
+</X3D>
