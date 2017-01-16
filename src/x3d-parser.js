@@ -1,4 +1,5 @@
-function renderX3D(THREE, x3dXml, scene) {
+function renderX3D(THREE, x3dXml, scene, useImageTexture) {
+    useImageTexture = useImageTexture === false ? false : true;
     scene = scene || new THREE.Scene();
     var defines = {};
     var float_pattern = /(\b|\-|\+)([\d\.e]+)/;
@@ -67,9 +68,9 @@ function renderX3D(THREE, x3dXml, scene) {
             var vec = {};
 
             // push the vector at which the color changes
-            vec.y = direction * ( Math.cos(angles[k]) * radius );
+            vec.y = direction * (Math.cos(angles[k]) * radius);
 
-            vec.x = direction * ( Math.sin(angles[k]) * radius );
+            vec.x = direction * (Math.sin(angles[k]) * radius);
 
             coord.push(vec);
 
@@ -80,7 +81,7 @@ function renderX3D(THREE, x3dXml, scene) {
 
             f = geometry.faces[i];
 
-            n = ( f instanceof THREE.Face3 ) ? 3 : 4;
+            n = (f instanceof THREE.Face3) ? 3 : 4;
 
             for (var j = 0; j < n; j++) {
 
@@ -119,7 +120,7 @@ function renderX3D(THREE, x3dXml, scene) {
                             aColor = colors[index];
 
                             // below is simple linear interpolation
-                            t = Math.abs(p.y - A.y) / ( A.y - B.y );
+                            t = Math.abs(p.y - A.y) / (A.y - B.y);
 
                             // to make it faster, you can only calculate this if the y coord changes, the color is the same for points with the same y
                             color = interpolateColors(aColor, bColor, t);
@@ -261,7 +262,7 @@ function renderX3D(THREE, x3dXml, scene) {
             var radius = 2e4;
 
             var skyGeometry = new THREE.SphereGeometry(radius, segments, segments);
-            var skyMaterial = new THREE.MeshBasicMaterial({fog: false, side: THREE.BackSide});
+            var skyMaterial = new THREE.MeshBasicMaterial({ fog: false, side: THREE.BackSide });
 
             if (data.skyColor.length > 1) {
 
@@ -285,7 +286,7 @@ function renderX3D(THREE, x3dXml, scene) {
                 radius = 1.2e4;
 
                 var groundGeometry = new THREE.SphereGeometry(radius, segments, segments, 0, 2 * Math.PI, 0.5 * Math.PI, 1.5 * Math.PI);
-                var groundMaterial = new THREE.MeshBasicMaterial({fog: false, side: THREE.BackSide, vertexColors: THREE.VertexColors});
+                var groundMaterial = new THREE.MeshBasicMaterial({ fog: false, side: THREE.BackSide, vertexColors: THREE.VertexColors });
 
                 paintFaces(groundGeometry, radius, data.groundAngle, data.groundColor, false);
 
@@ -387,7 +388,7 @@ function renderX3D(THREE, x3dXml, scene) {
                         skip = 0;
 
                         // Face3 only works with triangles, but IndexedFaceSet allows shapes with more then three vertices, build them of triangles
-                        while (indexes.length >= 3 && skip < ( indexes.length - 2 )) {
+                        while (indexes.length >= 3 && skip < (indexes.length - 2)) {
 
                             var face = new THREE.Face3(
                                 indexes[0],
@@ -398,7 +399,7 @@ function renderX3D(THREE, x3dXml, scene) {
                             );
 
                             if (uvs && uvIndexes) {
-                                geometry.faceVertexUvs [0].push([
+                                geometry.faceVertexUvs[0].push([
                                     new THREE.Vector2(
                                         uvs[uvIndexes[0]].x,
                                         uvs[uvIndexes[0]].y
@@ -515,7 +516,7 @@ function renderX3D(THREE, x3dXml, scene) {
 
                 }
 
-                if ('imagetexture' === child.nodeType) {
+                if ('imagetexture' === child.nodeType && useImageTexture) {
                     //var tex = THREE.ImageUtils.loadTexture("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABYSURBVDhPxc9BCsAgDERRj96j9WZpyI+CYxCKlL6VJfMXbfbSX8Ed8mOmAdMr8M5DNwVj2gJvaYqANXbBuoY0B4FbG1m7s592fh4Z7zx0GqCcog42vg7MHh1jhetTOqUmAAAAAElFTkSuQmCC");
                     var tex = THREE.ImageUtils.loadTexture(child.url);
                     tex.wrapS = THREE.RepeatWrapping;
@@ -542,7 +543,7 @@ function renderX3D(THREE, x3dXml, scene) {
 
     var getTree = function (x3dXml) {
 
-        var tree = {'string': 'Scene', children: []};
+        var tree = { 'string': 'Scene', children: [] };
 
         parseChildren(x3dXml.documentElement.childNodes[1], tree);
 
@@ -576,20 +577,20 @@ function renderX3D(THREE, x3dXml, scene) {
         var group = null;
 
         switch (nodeName.toLowerCase()) {
-            case 'box' :
-            case 'cylinder' :
-            case 'cone' :
-            case 'sphere' :
-            case 'indexedfaceset' :
+            case 'box':
+            case 'cylinder':
+            case 'cone':
+            case 'sphere':
+            case 'indexedfaceset':
                 group = 'geometry';
                 break;
 
-            case 'material' :
-            case 'imagetexture' :
+            case 'material':
+            case 'imagetexture':
                 group = 'appearance';
                 break;
 
-            case 'coordinate' :
+            case 'coordinate':
                 group = 'coord';
                 break;
 
@@ -610,7 +611,7 @@ function renderX3D(THREE, x3dXml, scene) {
 
         fieldName = attributeName;
         parts.push(attributeName);
-        while (null != ( part = valuePattern.exec(value) )) {
+        while (null != (part = valuePattern.exec(value))) {
             parts.push(part[0]);
         }
 
@@ -668,7 +669,7 @@ function renderX3D(THREE, x3dXml, scene) {
 
         } else if (this.isRecordingPoints) {
             if (node.nodeType == 'coordinate') {
-                while (null !== ( parts = float3_pattern.exec(value) )) {
+                while (null !== (parts = float3_pattern.exec(value))) {
                     this.points.push({
                         x: parseFloat(parts[1]),
                         y: parseFloat(parts[2]),
@@ -678,7 +679,7 @@ function renderX3D(THREE, x3dXml, scene) {
             }
 
             if (node.nodeType == 'texturecoordinate') {
-                while (null !== ( parts = float2_pattern.exec(value) )) {
+                while (null !== (parts = float2_pattern.exec(value))) {
                     this.points.push({
                         x: parseFloat(parts[1]),
                         y: parseFloat(parts[2])
@@ -704,7 +705,7 @@ function renderX3D(THREE, x3dXml, scene) {
             node[this.recordingFieldname] = this.angles;
 
         } else if (this.isRecordingColors) {
-            while (null !== ( parts = float3_pattern.exec(value) )) {
+            while (null !== (parts = float3_pattern.exec(value))) {
                 this.colors.push({
                     r: parseFloat(parts[1]),
                     g: parseFloat(parts[2]),
