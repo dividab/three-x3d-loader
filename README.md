@@ -27,5 +27,5 @@ var X3DLoader = require('three-x3d-loader');
 var parsedXml = {...};
 var scene = new THREE.Scene();
 
-X3DLoader.x3dParser(THREE, parsedXml, scene); // scene is created if missing
+X3DLoader.x3dParser(THREE, parsedXml, scene /* Optional. Created if missing */, useImageTexture/* Optional. Default true */);
 ```
