@@ -3,10 +3,6 @@
   "version": "0.2.2",
   "description": "Three loader for the X3D format.",
   "main": "index.js",
-  "scripts": {
-    "example": "webpack-dev-server --config example/webpack.example.config.js --content-base=example/",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jonaskello/three-x3d-loader.git"
@@ -28,5 +24,9 @@
   },
   "dependencies": {
     "xmldom": "^0.1.27"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --config example/webpack.example.config.js --content-base=example/",
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
