@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/jonaskello/three-x3d-loader#readme",
   "devDependencies": {
+    "shelljs": "^0.7.7",
     "three": "^0.82.1",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
