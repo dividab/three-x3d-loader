@@ -1,6 +1,6 @@
 {
   "name": "three-x3d-loader",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Three loader for the X3D format.",
   "main": "index.js",
   "repository": {
@@ -28,6 +28,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --config example/webpack.example.config.js --content-base=example/",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publish": "np"
   }
 }
