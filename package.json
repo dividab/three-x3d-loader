@@ -12,12 +12,13 @@
     "x3d"
   ],
   "author": "Jonas Kello",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/jonaskello/three-x3d-loader/issues"
   },
   "homepage": "https://github.com/jonaskello/three-x3d-loader#readme",
   "devDependencies": {
+    "np": "^2.13.1",
     "three": "^0.82.1",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
