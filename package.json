@@ -28,7 +28,6 @@
   },
   "scripts": {
     "start": "webpack-dev-server --config example/webpack.example.config.js --content-base=example/",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "np": "np"
   }
 }
