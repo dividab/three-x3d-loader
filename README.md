@@ -37,7 +37,7 @@ X3DLoader.x3dParser(THREE, parsedXml, scene /* Optional. Created if missing */, 
 
 ```
 1$ git clone https://github.com/coderextreme/three-x3d-loader
-2$ three-x3d-loader
+2$ cd three-x3d-loader
 3$ npm install
 4$ node app.js
 ```
