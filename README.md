@@ -43,7 +43,7 @@ X3DLoader.x3dParser(THREE, parsedXml, scene /* Optional. Created if missing */, 
 ```
 Then go to http://localhost:3000/ in a web browser.
 
-To change file you are viewing, edit example/example.js.  Replace "example.example.json" with an X3D XML or X3D JSON file (probably in Interchange profile).  Then type CTRL-c to stop the web server, and go to step 3 and continue to see a new picture.
+To change file you are viewing, edit example/example.js.  Replace "example/example.json" with an X3D XML or X3D JSON file (probably in Interchange profile).  Then type CTRL-c to stop the web server, and go to step 3 and continue to see a new picture.
 
 [version-image]: https://img.shields.io/npm/v/three-x3d-loader.svg?style=flat
 [version-url]: https://www.npmjs.com/package/three-x3d-loader
