@@ -288,7 +288,7 @@ function renderX3D(THREE, x3dXml, scene, useImageTexture) {
                 var groundGeometry = new THREE.SphereGeometry(radius, segments, segments, 0, 2 * Math.PI, 0.5 * Math.PI, 1.5 * Math.PI);
                 var groundMaterial = new THREE.MeshBasicMaterial({ fog: false, side: THREE.BackSide, vertexColors: THREE.VertexColors });
 
-                paintFaces(groundGeometry, radius, data.groundAngle, data.groundColor, false);
+                paintFaces(groundGeometry, radius, data.groundAngle || [], data.groundColor, false);
 
                 scene.add(new THREE.Mesh(groundGeometry, groundMaterial));
 
@@ -545,9 +545,13 @@ function renderX3D(THREE, x3dXml, scene, useImageTexture) {
 
         var tree = { 'string': 'Scene', children: [] };
 
-        parseChildren(x3dXml.documentElement.childNodes[1], tree);
-
-        return tree;
+        for(var i = 0; i < x3dXml.documentElement.childNodes.length; i++) {
+            if(x3dXml.documentElement.childNodes[i].nodeName === 'Scene') {
+                parseChildren(x3dXml.documentElement.childNodes[i], tree);
+                return tree;
+            }
+        }
+        console.error("Unable to find Scene element in X3D document")
 
     };
 
@@ -555,9 +559,10 @@ function renderX3D(THREE, x3dXml, scene, useImageTexture) {
         for (var i = 0; i < parentNode.childNodes.length; i++) {
             var currentNode = parentNode.childNodes[i];
             if (currentNode.nodeType !== 3) {
+                var nodeAttr = currentNode.attributes[0] || {}
                 var newChild = {
                     'nodeType': currentNode.nodeName.toLocaleLowerCase(),
-                    'string': getNodeGroup(currentNode.nodeName) + ' ' + currentNode.nodeName.toLocaleLowerCase(),
+                    'string': getNodeGroup(currentNode.nodeName) + ' ' + currentNode.nodeName.toLocaleLowerCase() + ' ' + nodeAttr.nodeName + ' ' + nodeAttr.nodeValue,
                     'parent': parentResult,
                     'children': []
                 };
