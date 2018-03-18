@@ -10,7 +10,7 @@ document.body.appendChild( renderer.domElement );
 
 const httpRequest = new XMLHttpRequest();
 
-var file = "example.xml";
+var file = "example.json";
 
 if (file.endsWith(".xml")) {
 	camera.position.z = 1000;
