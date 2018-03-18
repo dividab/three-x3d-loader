@@ -292,7 +292,7 @@ function renderX3D(THREE, x3d, scene, useImageTexture, useJson) {
                 var groundGeometry = new THREE.SphereGeometry(radius, segments, segments, 0, 2 * Math.PI, 0.5 * Math.PI, 1.5 * Math.PI);
                 var groundMaterial = new THREE.MeshBasicMaterial({ fog: false, side: THREE.BackSide, vertexColors: THREE.VertexColors });
 
-                paintFaces(groundGeometry, radius, data.groundAngle, data.groundColor, false);
+                paintFaces(groundGeometry, radius, data.groundAngle || [], data.groundColor, false);
 
                 scene.add(new THREE.Mesh(groundGeometry, groundMaterial));
 
@@ -577,16 +577,16 @@ function renderX3D(THREE, x3d, scene, useImageTexture, useJson) {
 		console.log(tree);
 		return tree;
 	}
-
     };
 
     var parseChildren = function (parentNode, parentResult) {
         for (var i = 0; i < parentNode.childNodes.length; i++) {
             var currentNode = parentNode.childNodes[i];
             if (currentNode.nodeType !== 3) {
+                var nodeAttr = currentNode.attributes[0] || {}
                 var newChild = {
                     'nodeType': currentNode.nodeName.toLocaleLowerCase(),
-                    'string': getNodeGroup(currentNode.nodeName) + ' ' + currentNode.nodeName.toLocaleLowerCase(),
+                    'string': getNodeGroup(currentNode.nodeName) + ' ' + currentNode.nodeName.toLocaleLowerCase() + ' ' + nodeAttr.nodeName + ' ' + nodeAttr.nodeValue,
                     'parent': parentResult,
                     'children': []
                 };

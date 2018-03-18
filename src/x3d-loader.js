@@ -32,8 +32,7 @@ module.exports = function (THREE) {
 
 			var scope = this;
 
-			var loader = new THREE.XHRLoader(this.manager);
-			loader.setCrossOrigin(this.crossOrigin);
+			var loader = new THREE.FileLoader(this.manager);
 			loader.load(url, function (text) {
 				onLoad(scope.parse(text));
 			}, onProgress, onError);
