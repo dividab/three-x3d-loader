@@ -24,10 +24,12 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "three": "^0.82.1",
     "xmldom": "^0.1.27"
   },
   "scripts": {
     "start": "webpack-dev-server --config example/webpack.example.config.js --content-base=example/",
-    "publish-package": "node scripts/publish.js"
+    "publish-package": "node scripts/publish.js",
+    "postinstall": "browserify example/example.js > bundle.js"
   }
 }
