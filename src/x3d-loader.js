@@ -2,8 +2,7 @@ var renderX3D = require('./x3d-parser');
 var DOMParser = require('xmldom').DOMParser;
 var JSONParser = require('./json-parser');
 
-
-module.exports = function (THREE) {
+var x3dLoader = function (THREE) {
 
 	THREE.X3DLoader = function (manager) {
 
@@ -70,3 +69,5 @@ module.exports = function (THREE) {
 	};
 
 };
+
+module.exports = x3dLoader;
