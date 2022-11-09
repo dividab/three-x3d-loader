@@ -1,7 +1,8 @@
 var renderX3D = require('./x3d-parser');
 var DOMParser = require('xmldom').DOMParser;
+var JSONParser = require('./json-parser');
 
-module.exports = function (THREE) {
+var x3dLoader = function (THREE) {
 
 	THREE.X3DLoader = function (manager) {
 
@@ -47,10 +48,20 @@ module.exports = function (THREE) {
 
 		parse: function (data, scene) {
 
-			var parser = new DOMParser();
 			var scene = new THREE.Scene();
-			var x3dXml = parser.parseFromString(data);
-			renderX3D(THREE, x3dXml, scene);
+			if (data.startsWith("{")) {
+				var jsonparser = new JSONParser();
+				var x3d = jsonparser.parseFromString(data);
+				var s = x3d["string"];
+				if (s !== 'Scene') {
+					throw("No JSON scene");
+				}
+				renderX3D(THREE, x3d, scene, undefined, true);
+			} else {
+				var xmlparser = new DOMParser();
+				var x3d = xmlparser.parseFromString(data);
+				renderX3D(THREE, x3d, scene, undefined, false);
+			}
 
 			return scene;
 		}
@@ -58,3 +69,5 @@ module.exports = function (THREE) {
 	};
 
 };
+
+module.exports = x3dLoader;

@@ -1,4 +1,4 @@
-function renderX3D(THREE, x3dXml, scene, useImageTexture) {
+function renderX3D(THREE, x3d, scene, useImageTexture, useJson) {
     useImageTexture = useImageTexture === false ? false : true;
     scene = scene || new THREE.Scene();
     var defines = {};
@@ -198,7 +198,11 @@ function renderX3D(THREE, x3dXml, scene, useImageTexture) {
             parent.cameraPosition = { x: p.x, y: p.y, z: p.z };
 
             var r = data.orientation;
-            parent.cameraOrientation = { xyz: new THREE.Vector3(r.x, r.y, r.z), v: r.v };
+	    if (typeof r === 'undefined') {
+		    parent.cameraOrientation = { xyz: new THREE.Vector3(0, 0, 1), v: 0 };
+	    } else {
+		    parent.cameraOrientation = { xyz: new THREE.Vector3(r.x, r.y, r.z), v: r.v };
+	    }
 
             parent.cameraFieldOfView = data.fieldOfView;
 
@@ -518,11 +522,28 @@ function renderX3D(THREE, x3dXml, scene, useImageTexture) {
 
                 if ('imagetexture' === child.nodeType && useImageTexture) {
                     //var tex = THREE.ImageUtils.loadTexture("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABYSURBVDhPxc9BCsAgDERRj96j9WZpyI+CYxCKlL6VJfMXbfbSX8Ed8mOmAdMr8M5DNwVj2gJvaYqANXbBuoY0B4FbG1m7s592fh4Z7zx0GqCcog42vg7MHh1jhetTOqUmAAAAAElFTkSuQmCC");
-                    var tex = THREE.ImageUtils.loadTexture(child.url);
-                    tex.wrapS = THREE.RepeatWrapping;
-                    tex.wrapT = THREE.RepeatWrapping;
-
-                    parent.material.map = tex;
+		    var loader = new THREE.TextureLoader();
+		    if (typeof child.url === 'string') {
+			    var tex = THREE.ImageUtils.loadTexture(child.url);
+			    if (typeof tex !== 'undefined' && tex != null) {
+				    tex.wrapS = THREE.RepeatWrapping;
+				    tex.wrapT = THREE.RepeatWrapping;
+				    parent.material.map = tex;
+		            }
+		    } else if (typeof child.url === 'object') {
+			    var tex = THREE.ImageUtils.loadTexture(child.url[0]);
+			    if (typeof tex === 'undefined' && tex == null) {
+				    for (let u in child.url) {
+					    // todo don't allow overwrite
+			    		    var tex = THREE.ImageUtils.loadTexture(child.url[u]);
+					    if (typeof tex !== 'undefined' && tex !== null) {
+						    tex.wrapS = THREE.RepeatWrapping;
+						    tex.wrapT = THREE.RepeatWrapping;
+						    parent.material.map = tex;
+					    }
+				    }
+			    }
+	             }
                 }
 
             }
@@ -541,18 +562,21 @@ function renderX3D(THREE, x3dXml, scene, useImageTexture) {
 
     };
 
-    var getTree = function (x3dXml) {
+    var getTree = function (x3d, useJson) {
 
-        var tree = { 'string': 'Scene', children: [] };
-
-        for(var i = 0; i < x3dXml.documentElement.childNodes.length; i++) {
-            if(x3dXml.documentElement.childNodes[i].nodeName === 'Scene') {
-                parseChildren(x3dXml.documentElement.childNodes[i], tree);
-                return tree;
-            }
-        }
-        console.error("Unable to find Scene element in X3D document")
-
+	if (useJson) {
+		console.log(x3d);
+		return x3d;
+	} else {
+		var tree = { 'string': 'Scene', children: [] };
+		for(let i = 0; i < x3d.documentElement.childNodes.length; i++) {
+			if (x3d.documentElement.childNodes[i].nodeName === "Scene") {
+				parseChildren(x3d.documentElement.childNodes[i], tree);
+			}
+		}
+		console.log(tree);
+		return tree;
+	}
     };
 
     var parseChildren = function (parentNode, parentResult) {
@@ -567,11 +591,11 @@ function renderX3D(THREE, x3dXml, scene, useImageTexture) {
                     'children': []
                 };
                 parentResult.children.push(newChild);
-                for (var attributesCounter = 0; attributesCounter < currentNode.attributes.length; attributesCounter++) {
+                for (var attributesCounter = 0; currentNode.attributes != null && attributesCounter < currentNode.attributes.length; attributesCounter++) {
                     parseAttribute(newChild, currentNode.attributes[attributesCounter].name, currentNode.attributes[attributesCounter].value);
                 }
 
-                if (currentNode.childNodes.length > 0) {
+                if (currentNode.childNodes != null && currentNode.childNodes.length > 0) {
                     parseChildren(currentNode, newChild);
                 }
             }
@@ -818,7 +842,7 @@ function renderX3D(THREE, x3dXml, scene, useImageTexture) {
         return property;
     };
 
-    renderNode(getTree(x3dXml), scene);
+    renderNode(getTree(x3d, useJson), scene);
 
 }
 
